@@ -80,6 +80,7 @@ export interface PersonalInfo {
   email: string;
   linkedin: string;
   github?: string;
+  instagram?: string;
   whatsapp?: string; // e.g. "8865804386" (country code + phone number without + or spaces)
   phone?: string;
   summary: string;

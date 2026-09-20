@@ -19,6 +19,9 @@ export const personalInfo: PersonalInfo = {
   // 🐙 GitHub Profile URL (change this to your exact GitHub profile, e.g. "https://github.com/your-username")
   github: "https://github.com",
 
+  // 📸 Instagram Profile URL
+  instagram: "https://www.instagram.com/aaditya_irl_?stkn=dXB0NTd3dTZqM3dx",
+
   // 📱 WhatsApp Number (format: country code without '+' or spaces, e.g. "8865804386" for India +91)
   whatsapp: "8865804386",
 

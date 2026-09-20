@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { personalInfo, projects, skillCategories, certifications } from '../data/portfolioData';
 import { soundFx } from '../utils/sound';
-import { LinkedInIcon } from './Icons';
+import { LinkedInIcon, InstagramIcon } from './Icons';
 import { 
   Search, 
   X, 
@@ -67,6 +67,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     { id: 'certifications', label: 'View Verified Certifications', icon: Award, action: () => { scrollTo('#certifications'); }, category: 'Navigation' },
     { id: 'contact', label: 'Contact Aditya Kumar', icon: Mail, action: () => { scrollTo('#contact'); }, category: 'Navigation' },
     { id: 'linkedin', label: 'Open LinkedIn Profile', icon: LinkedInIcon, action: () => { window.open(personalInfo.linkedin, '_blank'); onClose(); }, category: 'External' },
+    ...(personalInfo.instagram ? [{ id: 'instagram', label: 'Open Instagram Profile (@aaditya_irl_)', icon: InstagramIcon, action: () => { window.open(personalInfo.instagram, '_blank'); onClose(); }, category: 'External' }] : []),
   ];
 
   const projectItems = projects.map(p => ({

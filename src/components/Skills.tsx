@@ -1,256 +1,142 @@
-import React, { useState } from 'react';
-import { skillCategories } from '../data/portfolioData';
-import { soundFx } from '../utils/sound';
-import { GitHubIcon, PythonIcon } from './Icons';
+import React from 'react';
 import { 
-  Code2, 
+  Coffee, 
   Layers, 
+  Server, 
+  Cpu, 
+  Terminal, 
   Database, 
-  Wrench, 
-  Brain, 
-  Search, 
-  CheckCircle,
-  Terminal,
-  Sparkles,
-  Server,
-  Cpu,
-  Coffee,
-  FileCode,
-  Layout,
-  Palette,
-  Atom,
-  Network,
-  Table,
-  GitBranch,
+  Layout, 
+  Palette, 
+  Atom, 
+  FileCode, 
+  GitBranch, 
   Cloud,
-  Code,
-  Send,
-  Boxes,
-  Binary,
-  HardDrive
+  Table,
+  Workflow
 } from 'lucide-react';
+import { PythonIcon } from './Icons';
 
 export const Skills: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const usingNow = [
+    { name: "JAVA", icon: <Coffee className="w-8 h-8 text-black" />, desc: "Core OOP, Backend Services" },
+    { name: "REACT", icon: <Atom className="w-8 h-8 text-black" />, desc: "Reactive UI, State Hooks" },
+    { name: "NODE.JS", icon: <Server className="w-8 h-8 text-black" />, desc: "Asynchronous Runtime" },
+    { name: "EXPRESS", icon: <Cpu className="w-8 h-8 text-black" />, desc: "RESTful API Endpoints" },
+    { name: "PYTHON", icon: <PythonIcon className="w-8 h-8 text-black" />, desc: "Data & Automation Logic" },
+    { name: "JAVASCRIPT", icon: <FileCode className="w-8 h-8 text-black" />, desc: "Modern ES6+ Syntax" },
+    { name: "MONGODB", icon: <Layers className="w-8 h-8 text-black" />, desc: "NoSQL Document Store" },
+    { name: "MYSQL", icon: <Table className="w-8 h-8 text-black" />, desc: "Relational ACID DBMS" },
+    { name: "SQL", icon: <Database className="w-8 h-8 text-black" />, desc: "Complex Querying & Joins" },
+    { name: "HTML5", icon: <Layout className="w-8 h-8 text-black" />, desc: "Semantic Web Structure" },
+    { name: "CSS3 / TAILWIND", icon: <Palette className="w-8 h-8 text-black" />, desc: "Responsive Design Systems" },
+    { name: "GIT / GITHUB", icon: <GitBranch className="w-8 h-8 text-black" />, desc: "Version Control & Sync" }
+  ];
 
-  const getCategoryIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'Code2': return <Code2 className="w-4 h-4" />;
-      case 'Layers': return <Layers className="w-4 h-4" />;
-      case 'Database': return <Database className="w-4 h-4" />;
-      case 'Wrench': return <Wrench className="w-4 h-4" />;
-      case 'Brain': return <Brain className="w-4 h-4" />;
-      default: return <Sparkles className="w-4 h-4" />;
-    }
-  };
+  const learning = [
+    { name: "AWS CLOUD", icon: <Cloud className="w-7 h-7 text-black" /> },
+    { name: "TYPESCRIPT", icon: <FileCode className="w-7 h-7 text-black" /> },
+    { name: "NEXT.JS", icon: <Layers className="w-7 h-7 text-black" /> },
+    { name: "SYSTEM DESIGN", icon: <Workflow className="w-7 h-7 text-black" /> },
+    { name: "DOCKER / DEVOPS", icon: <Terminal className="w-7 h-7 text-black" /> }
+  ];
 
-  const getSkillIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'Coffee': return <Coffee className="w-4 h-4 text-amber-400" />;
-      case 'Python': return <PythonIcon className="w-4 h-4 text-yellow-400" />;
-      case 'FileCode': return <FileCode className="w-4 h-4 text-sky-400" />;
-      case 'Terminal': return <Terminal className="w-4 h-4 text-slate-300" />;
-      case 'Database': return <Database className="w-4 h-4 text-blue-400" />;
-      case 'Layout': return <Layout className="w-4 h-4 text-orange-400" />;
-      case 'Palette': return <Palette className="w-4 h-4 text-sky-400" />;
-      case 'Atom': return <Atom className="w-4 h-4 text-cyan-400" />;
-      case 'Server': return <Server className="w-4 h-4 text-emerald-400" />;
-      case 'Cpu': return <Cpu className="w-4 h-4 text-indigo-400" />;
-      case 'Network': return <Network className="w-4 h-4 text-purple-400" />;
-      case 'Table': return <Table className="w-4 h-4 text-blue-500" />;
-      case 'GitBranch': return <GitBranch className="w-4 h-4 text-orange-500" />;
-      case 'Github': return <GitHubIcon className="w-4 h-4 text-white" />;
-      case 'Cloud': return <Cloud className="w-4 h-4 text-sky-400" />;
-      case 'Code': return <Code className="w-4 h-4 text-blue-400" />;
-      case 'Send': return <Send className="w-4 h-4 text-amber-500" />;
-      case 'Boxes': return <Boxes className="w-4 h-4 text-emerald-400" />;
-      case 'Binary': return <Binary className="w-4 h-4 text-indigo-400" />;
-      case 'HardDrive': return <HardDrive className="w-4 h-4 text-teal-400" />;
-      default: return <Code2 className="w-4 h-4 text-brand-blue" />;
-    }
-  };
-
-  const filteredCategories = skillCategories.map((cat) => {
-    if (selectedCategory !== 'all' && cat.id !== selectedCategory) {
-      return null;
-    }
-    const filteredSkills = cat.skills.filter((skill) => {
-      const q = searchQuery.toLowerCase();
-      return (
-        skill.name.toLowerCase().includes(q) ||
-        (skill.description && skill.description.toLowerCase().includes(q)) ||
-        (skill.level && skill.level.toLowerCase().includes(q))
-      );
-    });
-
-    if (filteredSkills.length === 0) return null;
-
-    return {
-      ...cat,
-      skills: filteredSkills
-    };
-  }).filter(Boolean) as typeof skillCategories;
+  const otherSkills = [
+    "RESTful APIs Architecture",
+    "Object-Oriented Programming (OOPs)",
+    "Database Indexing & Normalization",
+    "Agile Collaboration & Code Review",
+    "Data Structures & Algorithms (DSA)",
+    "API Testing & Payload Verification",
+    "English (Professional) & Hindi (Native)"
+  ];
 
   return (
-    <section id="skills" className="relative py-24 sm:py-32 bg-dark-bg border-t border-white/[0.04]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="skills" className="py-24 sm:py-32 bg-[#ffffff] text-black border-t border-neutral-200">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-brand-blue text-xs font-mono">
-              <Cpu className="w-3.5 h-3.5" />
-              <span>Technical Arsenal &amp; Methodologies</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
-              Categorized Technical Skills
-            </h2>
-          </div>
-          <p className="text-slate-400 text-sm sm:text-base max-w-md">
-            Verified technical stack directly extracted from resume across languages, frameworks, databases, and core computer science concepts.
-          </p>
+        {/* Boxed Section Title Badge */}
+        <div className="inline-block border-[3px] border-black px-10 py-2.5 tracking-[0.3em] font-extrabold text-sm sm:text-base uppercase bg-transparent text-black mb-6">
+          SKILLS
         </div>
 
-        {/* Filters & Search Toolbar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-white/[0.08]">
-          {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                setSelectedCategory('all');
-              }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                selectedCategory === 'all'
-                  ? 'bg-brand-blue text-dark-bg font-bold shadow-md shadow-brand-blue/30'
-                  : 'bg-white/[0.04] text-slate-300 hover:bg-white/[0.08]'
-              }`}
-            >
-              All Skills ({skillCategories.reduce((acc, c) => acc + c.skills.length, 0)})
-            </button>
-            {skillCategories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  soundFx.playClick();
-                  setSelectedCategory(cat.id);
-                }}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                  selectedCategory === cat.id
-                    ? 'bg-brand-blue text-dark-bg font-bold shadow-md shadow-brand-blue/30'
-                    : 'bg-white/[0.04] text-slate-300 hover:bg-white/[0.08]'
-                }`}
-              >
-                {getCategoryIcon(cat.icon)}
-                <span>{cat.title}</span>
-              </button>
-            ))}
-          </div>
+        {/* Subtitle */}
+        <p className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase text-neutral-500 max-w-xl mx-auto mb-8">
+          Verified Core Competencies &amp; Technical Stack
+        </p>
 
-          {/* Quick Search */}
-          <div className="relative w-full sm:w-64">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search skill, e.g. Java, React, SQL..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-dark-surface/80 border border-white/10 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-blue/60 transition-colors"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
-              >
-                ×
-              </button>
-            )}
-          </div>
+        {/* Editorial Separator Line */}
+        <div className="flex items-center justify-center max-w-xs mx-auto mb-16">
+          <div className="flex-1 h-[1px] bg-black opacity-25" />
+          <span className="px-3 text-xs text-neutral-400 font-mono">◆</span>
+          <div className="flex-1 h-[1px] bg-black opacity-25" />
         </div>
 
-        {/* Skill Category Blocks */}
-        <div className="space-y-10">
-          {filteredCategories.map((cat) => (
-            <div key={cat.id} className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-lg bg-brand-blue/10 border border-brand-blue/20 text-brand-blue">
-                    {getCategoryIcon(cat.icon)}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-display font-bold text-white">
-                      {cat.title}
-                    </h3>
-                    <p className="text-xs text-slate-400">
-                      {cat.description}
-                    </p>
-                  </div>
+        {/* 1. USING NOW */}
+        <div className="mb-20 text-left">
+          <h3 className="text-xs font-bold tracking-[0.3em] uppercase text-neutral-600 mb-8 pb-3 border-b-2 border-black inline-block">
+            USING NOW:
+          </h3>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8">
+            {usingNow.map((skill, idx) => (
+              <div 
+                key={idx}
+                className="flex flex-col items-center justify-center p-6 bg-[#f8f9fa] border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 text-center group"
+              >
+                <div className="mb-3 transform group-hover:scale-110 transition-transform">
+                  {skill.icon}
                 </div>
-                <span className="text-xs font-mono text-slate-500">
-                  {cat.skills.length} competencies
+                <span className="font-display font-extrabold text-xs sm:text-sm tracking-wider uppercase text-black">
+                  {skill.name}
+                </span>
+                <span className="text-[10px] text-neutral-500 font-medium mt-1">
+                  {skill.desc}
                 </span>
               </div>
+            ))}
+          </div>
+        </div>
 
-              {/* Skills Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {cat.skills.map((skill) => (
-                  <div
-                    key={skill.name}
-                    onMouseEnter={() => soundFx.playHover()}
-                    className="glass-card glass-card-hover rounded-2xl p-4 sm:p-5 flex flex-col justify-between relative group"
-                  >
-                    <div>
-                      <div className="flex items-start justify-between gap-3 mb-2.5">
-                        <div className="flex items-center gap-2.5">
-                          <div className="p-2 rounded-xl bg-white/[0.04] border border-white/[0.06] group-hover:border-brand-blue/30 transition-colors">
-                            {getSkillIcon(skill.iconName)}
-                          </div>
-                          <div>
-                            <h4 className="text-sm font-semibold text-white group-hover:text-brand-blue transition-colors">
-                              {skill.name}
-                            </h4>
-                            {skill.level && (
-                              <span className="inline-block text-[10px] font-mono text-slate-400">
-                                {skill.level}
-                              </span>
-                            )}
-                          </div>
-                        </div>
+        {/* 2. LEARNING / EXPLORING */}
+        <div className="mb-20 text-left">
+          <h3 className="text-xs font-bold tracking-[0.3em] uppercase text-neutral-600 mb-8 pb-3 border-b-2 border-black inline-block">
+            LEARNING / EXPLORING:
+          </h3>
 
-                        <span className="p-1 rounded-md bg-emerald-500/10 text-emerald-400" title="Verified Skill">
-                          <CheckCircle className="w-3.5 h-3.5" />
-                        </span>
-                      </div>
-
-                      {skill.description && (
-                        <p className="text-xs text-slate-400 leading-relaxed line-clamp-2 group-hover:line-clamp-none transition-all">
-                          {skill.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-
-          {filteredCategories.length === 0 && (
-            <div className="text-center py-12 glass-card rounded-2xl border border-dashed border-white/10">
-              <p className="text-slate-400 text-sm">
-                No technical skills matched your search for "{searchQuery}".
-              </p>
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedCategory('all');
-                }}
-                className="mt-3 px-4 py-1.5 rounded-lg bg-brand-blue/20 text-brand-blue text-xs font-semibold"
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+            {learning.map((skill, idx) => (
+              <div 
+                key={idx}
+                className="flex flex-col items-center justify-center p-5 bg-[#f8f9fa] border-2 border-neutral-400 hover:border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.4)] transition-all text-center"
               >
-                Reset Filters
-              </button>
-            </div>
-          )}
+                <div className="mb-2 text-neutral-800">
+                  {skill.icon}
+                </div>
+                <span className="font-display font-bold text-xs tracking-wider uppercase text-neutral-900">
+                  {skill.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 3. OTHER SKILLS / STRENGTHS */}
+        <div className="text-left">
+          <h3 className="text-xs font-bold tracking-[0.3em] uppercase text-neutral-600 mb-8 pb-3 border-b-2 border-black inline-block">
+            OTHER SKILLS &amp; PROFICIENCIES:
+          </h3>
+
+          <div className="flex flex-wrap gap-3">
+            {otherSkills.map((skill, idx) => (
+              <span 
+                key={idx}
+                className="px-4 py-2 bg-white border-2 border-black font-semibold text-xs tracking-wider uppercase text-neutral-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
         </div>
 
       </div>

@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { CinematicVisual } from './components/CinematicVisual';
 import { About } from './components/About';
 import { Skills } from './components/Skills';
 import { Projects } from './components/Projects';
-import { Experience } from './components/Experience';
-import { Education } from './components/Education';
-import { Certifications } from './components/Certifications';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
 import { CommandPalette } from './components/CommandPalette';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { soundFx } from './utils/sound';
 
 export const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('hero');
   const [isResumeOpen, setIsResumeOpen] = useState<boolean>(false);
   const [isCommandOpen, setIsCommandOpen] = useState<boolean>(false);
-  const [soundEnabled, setSoundEnabled] = useState<boolean>(soundFx.isEnabled());
   const [scrollProgress, setScrollProgress] = useState<number>(0);
 
   // Scroll Progress and active section tracking
@@ -31,8 +25,8 @@ export const App: React.FC = () => {
         setScrollProgress(currentProgress);
       }
 
-      const sections = ['hero', 'about', 'skills', 'projects', 'experience', 'education', 'certifications', 'contact'];
-      const scrollPos = window.scrollY + 200;
+      const sections = ['hero', 'about', 'skills', 'projects', 'contact'];
+      const scrollPos = window.scrollY + 250;
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
@@ -54,60 +48,40 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('open-command-palette', handleOpenCommand);
   }, []);
 
-  const handleToggleSound = () => {
-    const newState = soundFx.toggle();
-    setSoundEnabled(newState);
-  };
-
   return (
-    <div className="min-h-screen bg-dark-bg text-slate-100 flex flex-col relative selection:bg-brand-blue/30 selection:text-white">
+    <div className="min-h-screen bg-[#000000] text-black flex flex-col relative selection:bg-black selection:text-white">
       
       {/* Scroll Progress Bar */}
       <div 
-        className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-brand-blue via-brand-indigo to-brand-violet z-[60] transition-all duration-150"
+        className="fixed top-0 left-0 h-[2px] bg-black dark:bg-white z-[60] transition-all duration-150"
         style={{ width: `${scrollProgress}%` }}
       />
 
-      {/* Top Sticky Glass Navigation */}
+      {/* Top Navigation */}
       <Navbar
         activeSection={activeSection}
         onOpenResume={() => setIsResumeOpen(true)}
-        onOpenCommand={() => setIsCommandOpen(true)}
-        soundEnabled={soundEnabled}
-        onToggleSound={handleToggleSound}
       />
 
-      {/* Main Content Area */}
+      {/* Main Content Sections according to Figma reference */}
       <main className="flex-grow">
-        {/* Hero Section with Interactive Code Terminal */}
+        {/* 1. HERO SECTION (Split design + IT Services / Philosophy Banner) */}
         <Hero onOpenResume={() => setIsResumeOpen(true)} />
 
-        {/* Cinematic Motion Visual Canvas Section */}
-        <CinematicVisual />
-
-        {/* About Section */}
+        {/* 2. ABOUT ME SECTION */}
         <About />
 
-        {/* Categorized Skills Section */}
+        {/* 3. SKILLS SECTION */}
         <Skills />
 
-        {/* Featured Projects & Case Studies */}
+        {/* 4. PORTFOLIO / SELECTED WORK SECTION */}
         <Projects />
 
-        {/* Experience & Internships Timeline */}
-        <Experience />
-
-        {/* Education Timeline */}
-        <Education />
-
-        {/* Certifications & Verified Badges */}
-        <Certifications />
-
-        {/* Contact & Inquiry Section */}
+        {/* 5. CONTACT SECTION */}
         <Contact />
       </main>
 
-      {/* Footer */}
+      {/* 6. FOOTER */}
       <Footer />
 
       {/* Interactive Resume Modal */}
@@ -123,7 +97,7 @@ export const App: React.FC = () => {
         onOpenResume={() => setIsResumeOpen(true)}
       />
 
-      {/* Floating WhatsApp Quick Connect Button */}
+      {/* Floating WhatsApp Connect */}
       <FloatingWhatsApp />
     </div>
   );

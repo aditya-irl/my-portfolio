@@ -6,10 +6,11 @@ import { GitHubIcon } from './Icons';
 import { 
   CheckCircle2, 
   X, 
-  ArrowRight, 
-  Code2,
   ExternalLink,
-  MessageSquare
+  MessageSquare,
+  Eye,
+  Layers,
+  Terminal
 } from 'lucide-react';
 
 export const Projects: React.FC = () => {
@@ -17,11 +18,11 @@ export const Projects: React.FC = () => {
   const [activeProjectModal, setActiveProjectModal] = useState<Project | null>(null);
 
   const categories = [
-    { id: 'all', label: 'All Projects' },
-    { id: 'AI & Utilities', label: 'AI & Utilities' },
-    { id: 'Full-Stack', label: 'Full-Stack Web' },
-    { id: 'Enterprise & Systems', label: 'Enterprise / Java' },
-    { id: 'Commercial', label: 'Commercial Client' },
+    { id: 'all', label: 'ALL' },
+    { id: 'Full-Stack', label: 'FULL-STACK' },
+    { id: 'Enterprise & Systems', label: 'JAVA / BACKEND' },
+    { id: 'AI & Utilities', label: 'AI & UTILITIES' },
+    { id: 'Commercial', label: 'COMMERCIAL' },
   ];
 
   const filteredProjects = selectedCategory === 'all'
@@ -38,7 +39,7 @@ export const Projects: React.FC = () => {
     setActiveProjectModal(null);
   };
 
-  const handleContactClick = () => {
+  const scrollToContact = () => {
     soundFx.playClick();
     const contactSection = document.querySelector('#contact');
     if (contactSection) {
@@ -47,27 +48,28 @@ export const Projects: React.FC = () => {
   };
 
   return (
-    <section id="projects" className="relative py-24 sm:py-32 bg-dark-bg border-t border-white/[0.04]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="projects" className="py-24 sm:py-32 bg-black text-white border-t-2 border-black">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-brand-blue text-xs font-mono">
-              <Code2 className="w-3.5 h-3.5" />
-              <span>Production &amp; Commercial Work</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
-              Featured Case Studies &amp; Projects
-            </h2>
-          </div>
-          <p className="text-slate-400 text-sm sm:text-base max-w-md">
-            Production-grade freelance platforms, AI automation utilities, and enterprise database systems built with modern engineering standards.
-          </p>
+        {/* Boxed Section Title Badge */}
+        <div className="inline-block border-[3px] border-white px-10 py-2.5 tracking-[0.3em] font-extrabold text-sm sm:text-base uppercase bg-transparent text-white mb-6">
+          PORTFOLIO
+        </div>
+
+        {/* Subtitle */}
+        <p className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase text-neutral-400 max-w-xl mx-auto mb-8">
+          Selected Production Platforms &bull; Commercial Systems &bull; AI Utilities
+        </p>
+
+        {/* Editorial Separator Line */}
+        <div className="flex items-center justify-center max-w-xs mx-auto mb-12">
+          <div className="flex-1 h-[1px] bg-white opacity-25" />
+          <span className="px-3 text-xs text-neutral-400 font-mono">◆</span>
+          <div className="flex-1 h-[1px] bg-white opacity-25" />
         </div>
 
         {/* Category Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-16">
           {categories.map((cat) => (
             <button
               key={cat.id}
@@ -75,209 +77,174 @@ export const Projects: React.FC = () => {
                 soundFx.playClick();
                 setSelectedCategory(cat.id);
               }}
-              className={`px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+              className={`px-5 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-200 border-2 ${
                 selectedCategory === cat.id
-                  ? 'bg-brand-blue text-dark-bg font-bold shadow-lg shadow-brand-blue/30'
-                  : 'bg-white/[0.04] text-slate-300 hover:bg-white/[0.08]'
+                  ? 'bg-white text-black border-white shadow-[3px_3px_0px_0px_rgba(255,255,255,0.3)]'
+                  : 'bg-black text-neutral-400 border-neutral-800 hover:border-neutral-500 hover:text-white'
               }`}
             >
-              {cat.label} {cat.id === 'all' ? `(${projects.length})` : ''}
+              {cat.label}
             </button>
           ))}
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project) => (
+        {/* Large Visual Gallery Grid matching Reference */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+          {filteredProjects.map((project, idx) => (
             <div
               key={project.id}
-              onMouseEnter={() => soundFx.playHover()}
-              className="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 flex flex-col justify-between relative group overflow-hidden border border-white/10"
+              className="bg-[#0e0e10] border-2 border-neutral-800 hover:border-white shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.3)] transition-all duration-300 flex flex-col justify-between group overflow-hidden"
             >
-              {/* Card Header */}
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-white/[0.05] border border-white/10 text-slate-300">
-                    {project.type}
-                  </span>
-                  {project.metrics && (
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-mono bg-brand-blue/10 text-brand-blue border border-brand-blue/20 font-medium">
-                      {project.metrics}
-                    </span>
-                  )}
-                </div>
-
-                <h3 className="text-xl font-display font-bold text-white group-hover:text-brand-blue transition-colors mb-2">
-                  {project.title}
-                </h3>
+              {/* Project Top Art / Preview Panel */}
+              <div className="relative aspect-[16/10] bg-[#141416] border-b-2 border-neutral-800 flex items-center justify-center p-6 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 to-black opacity-90" />
                 
-                <p className="text-xs text-brand-blue/90 font-medium mb-3">
-                  {project.tagline}
-                </p>
+                {/* Decorative Grid Pattern */}
+                <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] opacity-10" />
 
-                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed line-clamp-3 mb-6">
-                  {project.description}
-                </p>
-
-                {/* Key Bullet Preview */}
-                <div className="space-y-2 mb-6">
-                  {project.highlights.slice(0, 2).map((highlight, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-300">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                      <span className="leading-snug">{highlight}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Card Footer */}
-              <div>
-                {/* Tech Stack Badges */}
-                <div className="flex flex-wrap gap-1.5 mb-4 pt-4 border-t border-white/[0.08]">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[10px] font-mono text-slate-400 border border-white/[0.06]"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Direct Action Links */}
-                <div className="flex items-center gap-2 mb-3">
-                  {project.liveUrl ? (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-blue/15 hover:bg-brand-blue/25 border border-brand-blue/30 text-xs font-semibold text-brand-blue transition-colors flex-1 justify-center"
-                    >
-                      <span>Live Demo</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  ) : (
-                    <a
-                      href="#contact"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleContactClick();
-                      }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 text-xs font-medium text-emerald-400 transition-colors flex-1 justify-center group/btn"
-                    >
-                      <MessageSquare className="w-3 h-3" />
-                      <span>Contact for Demo</span>
-                    </a>
-                  )}
-
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-semibold text-slate-200 transition-colors flex-1 justify-center"
-                    >
-                      <GitHubIcon className="w-3.5 h-3.5" />
-                      <span>Source</span>
-                    </a>
-                  )}
-                </div>
-
-                {/* Case Study Action Button */}
-                <button
-                  onClick={() => openProjectModal(project)}
-                  className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white/[0.04] group-hover:bg-brand-blue group-hover:text-dark-bg text-xs font-semibold text-white transition-all shadow-sm"
-                >
-                  <span>Inspect Case Study &amp; Architecture</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                {/* Explicit Mention Below Project: Contact for Demo */}
-                <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px]">
-                  <span className="flex items-center gap-1.5 text-slate-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Live Walkthrough Available</span>
+                {/* Project Number / Category Tag */}
+                <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+                  <span className="font-mono text-[10px] tracking-widest text-white border border-neutral-700 bg-black/80 px-2 py-0.5 uppercase">
+                    0{idx + 1} // {project.category}
                   </span>
-                  <a
-                    href="#contact"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleContactClick();
-                    }}
-                    className="inline-flex items-center gap-1 font-semibold text-emerald-400 hover:text-emerald-300 transition-colors group/demo"
-                  >
-                    <span>Contact for Demo</span>
-                    <ArrowRight className="w-3 h-3 group-hover/demo:translate-x-0.5 transition-transform" />
-                  </a>
+                </div>
+
+                {/* Center Visual Mockup Graphic */}
+                <div className="relative z-10 text-center space-y-2 transform group-hover:scale-105 transition-transform duration-300">
+                  <div className="w-12 h-12 mx-auto border border-neutral-700 bg-black flex items-center justify-center text-white">
+                    {project.category.includes('Java') || project.category.includes('Enterprise') ? (
+                      <Terminal className="w-6 h-6" />
+                    ) : (
+                      <Layers className="w-6 h-6" />
+                    )}
+                  </div>
+                  <span className="font-display font-black text-sm tracking-wider uppercase text-white block">
+                    {project.title.split('–')[0].split('-')[0]}
+                  </span>
+                  <span className="text-[10px] font-mono text-neutral-400 block tracking-widest">
+                    {project.metrics || 'PRODUCTION ARCHITECTURE'}
+                  </span>
                 </div>
               </div>
+
+              {/* Project Body Info */}
+              <div className="p-6 flex-grow flex flex-col justify-between space-y-6">
+                <div className="space-y-3">
+                  <h3 className="font-display font-extrabold text-lg text-white uppercase tracking-tight group-hover:text-neutral-200 transition-colors">
+                    {project.title}
+                  </h3>
+
+                  <p className="text-xs text-neutral-400 font-medium tracking-wide leading-relaxed line-clamp-3">
+                    {project.description}
+                  </p>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-neutral-900">
+                  {/* Tech Badges */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.technologies.slice(0, 4).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-0.5 bg-neutral-900 border border-neutral-800 text-[10px] font-mono text-neutral-300 uppercase tracking-wider"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Actions Row */}
+                  <div className="flex items-center gap-2 pt-2">
+                    <button
+                      onClick={() => openProjectModal(project)}
+                      className="flex-1 py-2.5 bg-white text-black border-2 border-white text-xs font-bold tracking-[0.15em] uppercase hover:bg-black hover:text-white transition-all flex items-center justify-center gap-1.5"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Details</span>
+                    </button>
+
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2.5 bg-black text-white border-2 border-neutral-700 hover:border-white transition-colors"
+                        title="GitHub Repository"
+                        aria-label="GitHub Repository"
+                      >
+                        <GitHubIcon className="w-4 h-4" />
+                      </a>
+                    )}
+
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2.5 bg-black text-white border-2 border-neutral-700 hover:border-white transition-colors"
+                        title="Live Site"
+                        aria-label="Live Site"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+
             </div>
           ))}
         </div>
 
-        {/* ============================================================= */}
-        {/* 📢 BOTTOM CALLOUT: CONTACT FOR LIVE DEMO                      */}
-        {/* ============================================================= */}
-        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-brand-blue/10 via-brand-indigo/10 to-emerald-500/10 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left glass-card-glow">
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">
-                Live Demonstrations &amp; Source Access
-              </span>
-            </div>
-            <h4 className="text-lg sm:text-xl font-display font-bold text-white">
-              Interested in a live interactive demo or custom platform build?
+        {/* Bottom Banner for Live Demo */}
+        <div className="mt-16 p-8 border-2 border-white/20 bg-neutral-950 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          <div className="space-y-1">
+            <span className="text-xs font-mono tracking-widest text-emerald-400 uppercase font-semibold block">
+              &bull; LIVE SANDBOX &amp; DEMOS
+            </span>
+            <h4 className="text-lg sm:text-xl font-display font-bold text-white uppercase">
+              Looking for a custom build or interactive walkthrough?
             </h4>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-              Private sandbox walkthroughs, institutional deployments, and custom feature demonstrations are available directly upon request.
+            <p className="text-xs text-neutral-400 max-w-xl font-normal">
+              Private sandbox walkthroughs, institutional deployments, and architecture reviews are available on request.
             </p>
           </div>
 
-          <a
-            href="#contact"
-            onClick={handleContactClick}
-            className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.03] active:scale-[0.98] transition-all whitespace-nowrap flex items-center gap-2 shrink-0"
+          <button
+            onClick={scrollToContact}
+            className="px-6 py-3 bg-white text-black border-2 border-white text-xs font-bold tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all whitespace-nowrap flex items-center gap-2 shrink-0"
           >
             <MessageSquare className="w-4 h-4" />
             <span>Contact for Demo</span>
-          </a>
+          </button>
         </div>
 
       </div>
 
       {/* Deep-Dive Project Modal */}
       {activeProjectModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-xl animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md">
           <div
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-dark-surface border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6"
+            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#0f0f11] border-2 border-white text-white p-6 sm:p-10 shadow-2xl space-y-6"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/[0.08]">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="px-2.5 py-0.5 rounded-md bg-brand-blue/10 text-brand-blue border border-brand-blue/20 text-xs font-mono">
-                    {activeProjectModal.category}
-                  </span>
-                  <span className="text-xs font-mono text-slate-400">
-                    {activeProjectModal.type}
-                  </span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-display font-bold text-white">
+            <div className="flex items-start justify-between gap-4 pb-4 border-b-2 border-neutral-800">
+              <div className="space-y-1">
+                <span className="text-[10px] font-mono tracking-widest uppercase text-neutral-400 border border-neutral-700 px-2 py-0.5 inline-block">
+                  {activeProjectModal.category} &bull; {activeProjectModal.type}
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-display font-black text-white uppercase tracking-tight">
                   {activeProjectModal.title}
                 </h3>
-                <p className="text-sm text-brand-blue mt-1">
+                <p className="text-xs text-neutral-300 font-medium">
                   {activeProjectModal.tagline}
                 </p>
               </div>
 
               <button
                 onClick={closeProjectModal}
-                className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] text-slate-400 hover:text-white transition-colors"
-                aria-label="Close modal"
+                className="p-2 border border-neutral-700 text-neutral-400 hover:text-white hover:border-white transition-colors"
+                aria-label="Close"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -285,74 +252,74 @@ export const Projects: React.FC = () => {
 
             {/* Description */}
             <div className="space-y-2">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                Project Overview
+              <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-400">
+                OVERVIEW
               </h4>
-              <p className="text-sm text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                 {activeProjectModal.description}
               </p>
             </div>
 
-            {/* Key Features & Achievements from Resume */}
+            {/* Highlights */}
             <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                Key Features &amp; Engineering Deliverables
+              <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-400">
+                ENGINEERING DELIVERABLES &amp; ACHIEVEMENTS
               </h4>
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 {activeProjectModal.highlights.map((highlight, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] text-xs sm:text-sm text-slate-200">
+                  <div key={idx} className="flex items-start gap-3 p-3 bg-black border border-neutral-800 text-xs text-neutral-200">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">{highlight}</span>
+                    <span>{highlight}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Architecture Details Grid */}
+            {/* Architecture Details */}
             {activeProjectModal.architectureDetails && (
               <div className="space-y-3">
-                <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                  System Architecture Breakdown
+                <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-400">
+                  SYSTEM ARCHITECTURE
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                   {activeProjectModal.architectureDetails.frontend && (
-                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                      <span className="text-slate-500 font-mono block mb-1">Frontend Layer</span>
-                      <span className="text-slate-200">{activeProjectModal.architectureDetails.frontend}</span>
+                    <div className="p-3 bg-black border border-neutral-800">
+                      <span className="text-neutral-500 font-mono block mb-1 uppercase text-[10px]">Frontend</span>
+                      <span className="text-neutral-200">{activeProjectModal.architectureDetails.frontend}</span>
                     </div>
                   )}
                   {activeProjectModal.architectureDetails.backend && (
-                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                      <span className="text-slate-500 font-mono block mb-1">Backend &amp; API Layer</span>
-                      <span className="text-slate-200">{activeProjectModal.architectureDetails.backend}</span>
+                    <div className="p-3 bg-black border border-neutral-800">
+                      <span className="text-neutral-500 font-mono block mb-1 uppercase text-[10px]">Backend</span>
+                      <span className="text-neutral-200">{activeProjectModal.architectureDetails.backend}</span>
                     </div>
                   )}
                   {activeProjectModal.architectureDetails.database && (
-                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                      <span className="text-slate-500 font-mono block mb-1">Database &amp; Storage</span>
-                      <span className="text-slate-200">{activeProjectModal.architectureDetails.database}</span>
+                    <div className="p-3 bg-black border border-neutral-800">
+                      <span className="text-neutral-500 font-mono block mb-1 uppercase text-[10px]">Database</span>
+                      <span className="text-neutral-200">{activeProjectModal.architectureDetails.database}</span>
                     </div>
                   )}
                   {activeProjectModal.architectureDetails.keyInnovation && (
-                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                      <span className="text-brand-blue font-mono block mb-1">Core Innovation</span>
-                      <span className="text-slate-200">{activeProjectModal.architectureDetails.keyInnovation}</span>
+                    <div className="p-3 bg-black border border-neutral-800">
+                      <span className="text-emerald-400 font-mono block mb-1 uppercase text-[10px]">Innovation</span>
+                      <span className="text-neutral-200">{activeProjectModal.architectureDetails.keyInnovation}</span>
                     </div>
                   )}
                 </div>
               </div>
             )}
 
-            {/* Technologies Badges */}
-            <div className="space-y-2 pt-2 border-t border-white/[0.08]">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                Technology Stack
+            {/* Tech Stack */}
+            <div className="space-y-2 pt-2 border-t border-neutral-800">
+              <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-neutral-400">
+                TECHNOLOGIES
               </h4>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {activeProjectModal.technologies.map((t) => (
                   <span
                     key={t}
-                    className="px-3 py-1 rounded-lg bg-white/[0.04] text-xs font-mono text-slate-200 border border-white/[0.08]"
+                    className="px-3 py-1 bg-black border border-neutral-700 text-xs font-mono text-neutral-200 uppercase"
                   >
                     {t}
                   </span>
@@ -360,43 +327,17 @@ export const Projects: React.FC = () => {
               </div>
             </div>
 
-            {/* Demo & Walkthrough Notice in Modal */}
-            <div className="p-4 rounded-2xl bg-emerald-500/[0.07] border border-emerald-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
-                    Interactive Walkthrough &amp; Sandbox Access
-                  </span>
-                </div>
-                <p className="text-xs text-slate-300">
-                  Looking for a live sandbox demonstration, code review, or custom deployment of this system?
-                </p>
-              </div>
-              <a
-                href="#contact"
-                onClick={() => {
-                  closeProjectModal();
-                  handleContactClick();
-                }}
-                className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-dark-bg text-xs font-bold shadow-md shadow-emerald-500/20 transition-all whitespace-nowrap flex items-center gap-1.5 shrink-0"
-              >
-                <MessageSquare className="w-3.5 h-3.5" />
-                <span>Contact for Demo</span>
-              </a>
-            </div>
-
             {/* Modal Actions */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/[0.08]">
-              <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-neutral-800">
+              <div className="flex flex-wrap items-center gap-3">
                 {activeProjectModal.liveUrl && (
                   <a
                     href={activeProjectModal.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-blue text-dark-bg text-xs font-bold shadow-md shadow-brand-blue/20 hover:bg-brand-blue/90 transition-colors"
+                    className="px-5 py-2.5 bg-white text-black border-2 border-white text-xs font-bold tracking-wider uppercase hover:bg-black hover:text-white transition-all flex items-center gap-1.5"
                   >
-                    <span>Launch Live Platform</span>
+                    <span>Live Platform</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 )}
@@ -405,32 +346,32 @@ export const Projects: React.FC = () => {
                     href={activeProjectModal.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs font-semibold text-slate-200 transition-colors border border-white/10"
+                    className="px-5 py-2.5 bg-black text-white border-2 border-neutral-700 hover:border-white text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5"
                   >
                     <GitHubIcon className="w-3.5 h-3.5" />
-                    <span>View Repository</span>
+                    <span>Source</span>
                   </a>
                 )}
-                <a
-                  href="#contact"
+                <button
                   onClick={() => {
                     closeProjectModal();
-                    handleContactClick();
+                    scrollToContact();
                   }}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-xs font-semibold text-emerald-400 transition-colors"
+                  className="px-5 py-2.5 bg-black text-white border-2 border-emerald-500/50 hover:border-emerald-400 text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5"
                 >
-                  <MessageSquare className="w-3.5 h-3.5" />
+                  <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Contact for Demo</span>
-                </a>
+                </button>
               </div>
 
               <button
                 onClick={closeProjectModal}
-                className="px-5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-medium text-slate-300 transition-colors"
+                className="px-6 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-xs font-bold uppercase tracking-wider text-neutral-300"
               >
-                Close Case Study
+                Close
               </button>
             </div>
+
           </div>
         </div>
       )}

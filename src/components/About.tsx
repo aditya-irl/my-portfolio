@@ -1,173 +1,96 @@
 import React from 'react';
 import { personalInfo } from '../data/portfolioData';
-import { soundFx } from '../utils/sound';
-import { 
-  Code2, 
-  ShieldCheck, 
-  Terminal, 
-  Layers,
-  Sparkles,
-  ArrowUpRight
-} from 'lucide-react';
+import { Layout, Server, Cpu, ShieldCheck } from 'lucide-react';
 
 export const About: React.FC = () => {
-  const pillars = [
+  const services = [
     {
-      icon: Code2,
-      title: "Java Backend & OOP Architecture",
-      desc: "Deep focus on clean object-oriented paradigms, backend modularity, and optimized database query execution gained through hands-on industry internship experience.",
-      accent: "text-brand-blue border-brand-blue/30 bg-brand-blue/10",
-      skills: ["Java", "OOPs", "Relational DBMS", "SQL", "Optimized Query Logic"]
+      icon: Layout,
+      title: "DESIGN & FRONTEND",
+      desc: "Creating responsive, modern web interfaces with React.js, TypeScript, and Tailwind CSS. Crafting intuitive user experiences, single-page architectures, and dynamic dashboards."
     },
     {
-      icon: Layers,
-      title: "Production Full-Stack Web Platforms",
-      desc: "Building complete web applications using React.js, Node.js, Express, and modern database backends (MongoDB & MySQL), delivering real-world commercial and campus solutions.",
-      accent: "text-indigo-400 border-indigo-500/30 bg-indigo-500/10",
-      skills: ["React.js", "Node.js", "Express.js", "MongoDB", "REST APIs"]
+      icon: Server,
+      title: "DEVELOPMENT & BACKEND",
+      desc: "Architecting modular Java backend pipelines, enterprise object-oriented workflows, robust Express.js RESTful APIs, and optimized query execution logic."
     },
     {
-      icon: Sparkles,
-      title: "AI-Powered Automation Utilities",
-      desc: "Architecting purpose-built tools like SlideAI that leverage intelligent text parsing and segmentation algorithms to drastically reduce preparation overhead by >70%.",
-      accent: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
-      skills: ["AI Integration", "Document Parsing", "Vercel", "Automation"]
+      icon: Cpu,
+      title: "MAINTENANCE & SYSTEMS",
+      desc: "Structuring relational and NoSQL database schemas (MySQL, MongoDB), handling AWS cloud deployments, Git version control workflows, and code reliability."
     }
   ];
 
   return (
-    <section id="about" className="relative py-24 sm:py-32 bg-dark-bg border-t border-white/[0.04]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="py-24 sm:py-32 bg-[#f8f9fa] text-black border-t border-neutral-200">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
         
-        {/* Section Heading */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-brand-blue text-xs font-mono">
-              <Terminal className="w-3.5 h-3.5" />
-              <span>Developer Profile &amp; Core Strengths</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
-              Engineering with Purpose &amp; Precision
-            </h2>
-          </div>
-          <p className="text-slate-400 text-sm sm:text-base max-w-md">
-            Undergraduate software engineer pairing strong algorithmic problem-solving with production web and backend execution.
+        {/* Boxed Section Title Badge */}
+        <div className="inline-block border-[3px] border-black px-10 py-2.5 tracking-[0.3em] font-extrabold text-sm sm:text-base uppercase bg-transparent text-black mb-6">
+          ABOUT ME
+        </div>
+
+        {/* Centered Editorial Subtitle */}
+        <p className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase text-neutral-500 max-w-xl mx-auto mb-10">
+          Undergraduate Computer Science Engineer &bull; Full Stack &amp; Java Developer
+        </p>
+
+        {/* Editorial Separator Line */}
+        <div className="flex items-center justify-center max-w-xs mx-auto mb-12">
+          <div className="flex-1 h-[1px] bg-black opacity-25" />
+          <span className="px-3 text-xs text-neutral-400 font-mono">◆</span>
+          <div className="flex-1 h-[1px] bg-black opacity-25" />
+        </div>
+
+        {/* Bio Text */}
+        <div className="max-w-3xl mx-auto text-center mb-20">
+          <p className="text-base sm:text-lg text-neutral-800 leading-relaxed font-normal">
+            {personalInfo.summary}
           </p>
         </div>
 
-        {/* Top Summary Card */}
-        <div className="glass-card rounded-3xl p-8 sm:p-12 mb-12 relative overflow-hidden glass-card-glow">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            <div className="lg:col-span-8 space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="h-3 w-3 rounded-full bg-brand-blue animate-pulse"></span>
-                <span className="text-xs font-mono uppercase tracking-widest text-brand-blue font-semibold">
-                  Professional Identity
-                </span>
-              </div>
-              <p className="text-lg sm:text-xl text-slate-200 leading-relaxed font-normal">
-                "{personalInfo.summary}"
-              </p>
-              
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-white/[0.08]">
-                <div>
-                  <span className="block text-xs font-mono text-slate-400 uppercase">Status</span>
-                  <span className="text-sm font-semibold text-white">3rd-Year B.Tech CSE</span>
-                </div>
-                <div>
-                  <span className="block text-xs font-mono text-slate-400 uppercase">Institution</span>
-                  <span className="text-sm font-semibold text-white">Accurate Inst. of Mgmt &amp; Tech</span>
-                </div>
-                <div>
-                  <span className="block text-xs font-mono text-slate-400 uppercase">Core Location</span>
-                  <span className="text-sm font-semibold text-white">Greater Noida, India</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Metrics & Verified Badges */}
-            <div className="lg:col-span-4 bg-dark-surface/90 rounded-2xl p-6 border border-white/10 space-y-4">
-              <span className="text-xs font-mono text-slate-400 uppercase tracking-wider block">
-                Engineering Highlights
-              </span>
-
-              <div className="space-y-3 text-xs">
-                <div className="flex items-start gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span className="text-slate-300">
-                    <strong className="text-white">HackerRank Certified</strong> in Java, SQL &amp; Python problem-solving
-                  </span>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span className="text-slate-300">
-                    <strong className="text-white">J.P. Morgan Chase &amp; Co.</strong> Software Engineering Simulation (Forage)
-                  </span>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span className="text-slate-300">
-                    <strong className="text-white">AWS Cloud Practitioner</strong> Foundational Training
-                  </span>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span className="text-slate-300">
-                    <strong className="text-white">5 Production &amp; Commercial</strong> Deployed Platforms
-                  </span>
-                </div>
-              </div>
-
-              <a
-                href="#projects"
-                onClick={() => soundFx.playClick()}
-                onMouseEnter={() => soundFx.playHover()}
-                className="mt-4 flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-slate-200 hover:text-white transition-colors border border-white/10"
-              >
-                <span>Browse Project Case Studies</span>
-                <ArrowUpRight className="w-4 h-4 text-brand-blue" />
-              </a>
-            </div>
-
-          </div>
-        </div>
-
-        {/* 3 Core Engineering Pillars */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {pillars.map((pillar, idx) => {
-            const Icon = pillar.icon;
+        {/* 3 Column Service / Competency Breakdown matching Reference */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 text-center">
+          {services.map((service, idx) => {
+            const Icon = service.icon;
             return (
-              <div
-                key={idx}
-                onMouseEnter={() => soundFx.playHover()}
-                className="glass-card glass-card-hover rounded-2xl p-7 flex flex-col justify-between"
-              >
-                <div className="space-y-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${pillar.accent}`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-display font-bold text-white">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                    {pillar.desc}
-                  </p>
+              <div key={idx} className="flex flex-col items-center space-y-4 p-6 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200">
+                <div className="w-14 h-14 border-2 border-black flex items-center justify-center text-black bg-[#f8f9fa] mb-2">
+                  <Icon className="w-7 h-7" />
                 </div>
-
-                <div className="flex flex-wrap gap-1.5 mt-6 pt-4 border-t border-white/[0.06]">
-                  {pillar.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-2.5 py-1 rounded-md bg-white/[0.03] text-[11px] font-mono text-slate-300 border border-white/[0.06]"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+                <h3 className="text-sm sm:text-base font-display font-extrabold tracking-[0.15em] text-black uppercase">
+                  {service.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+                  {service.desc}
+                </p>
               </div>
             );
           })}
+        </div>
+
+        {/* Verified Credentials Summary Strip */}
+        <div className="mt-16 pt-10 border-t border-neutral-300 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+          <div className="p-4 bg-white border border-neutral-200">
+            <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase block mb-1">Academics</span>
+            <span className="text-xs sm:text-sm font-bold text-black block">B.Tech in CSE (3rd Year)</span>
+            <span className="text-[11px] text-neutral-600">Accurate Institute of Mgmt &amp; Tech</span>
+          </div>
+
+          <div className="p-4 bg-white border border-neutral-200">
+            <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase block mb-1">Industry Experience</span>
+            <span className="text-xs sm:text-sm font-bold text-black block">Java Developer Intern</span>
+            <span className="text-[11px] text-neutral-600">Skillnexis &bull; Backend Architecture</span>
+          </div>
+
+          <div className="p-4 bg-white border border-neutral-200">
+            <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase block mb-1">Verified Badges</span>
+            <span className="text-xs sm:text-sm font-bold text-black block flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              HackerRank (Java, SQL, Python)
+            </span>
+            <span className="text-[11px] text-neutral-600">J.P. Morgan SWE Simulation</span>
+          </div>
         </div>
 
       </div>
