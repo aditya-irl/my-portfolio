@@ -24,36 +24,48 @@ export const Contact: React.FC = () => {
     if (errorMessage) setErrorMessage(null);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     soundFx.playClick();
     setIsSubmitting(true);
     setErrorMessage(null);
 
-    const formPayload = new FormData();
-    formPayload.append("access_key", "59e39b8a-f7d9-4c5f-8bce-e65ac0a21b8d");
-    formPayload.append("name", formData.name);
-    formPayload.append("email", formData.email);
-    formPayload.append("phone", formData.phone || "Not provided");
-    formPayload.append("message", formData.message);
-    formPayload.append("subject", `New Portfolio Contact Message from ${formData.name}`);
-    formPayload.append("from_name", formData.name);
+    const payload = {
+      access_key: "59e39b8a-f7d9-4c5f-8bce-e65ac0a21b8d",
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim() || "Not provided",
+      message: formData.message.trim(),
+      subject: `New Portfolio Message from ${formData.name.trim()}`,
+      from_name: formData.name.trim(),
+    };
+
+    console.log("[Web3Forms] Transmitting contact form payload...");
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: formPayload
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
+      console.log("[Web3Forms] API Response Status:", response.status, data);
 
-      if (response.ok && (data.success || data.message === "Form submitted successfully")) {
+      if (response.ok && (data.success === true || data.success === "true")) {
         setSubmitted(true);
         soundFx.playSuccess();
+        setFormData({ name: '', email: '', phone: '', message: '' });
       } else {
-        setErrorMessage(data.message || "Failed to submit message. Please try again.");
+        const errorMsg = data.message || "Failed to submit message. Please try again.";
+        setErrorMessage(errorMsg);
+        console.error("[Web3Forms] Error Message:", errorMsg);
       }
     } catch (error) {
+      console.error("[Web3Forms] Network Exception:", error);
       setErrorMessage("Network error occurred. Please try again or email directly.");
     } finally {
       setIsSubmitting(false);
