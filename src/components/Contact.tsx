@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { personalInfo } from '../data/portfolioData';
 import { soundFx } from '../utils/sound';
-import { MapPin, Send, CheckCircle2, Copy, Check } from 'lucide-react';
+import { MapPin, Send, CheckCircle2, Copy, Check, AlertCircle } from 'lucide-react';
 import { LinkedInIcon, InstagramIcon } from './Icons';
 
 export const Contact: React.FC = () => {
@@ -13,6 +13,7 @@ export const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -20,18 +21,43 @@ export const Contact: React.FC = () => {
       ...prev,
       [e.target.name]: e.target.value
     }));
+    if (errorMessage) setErrorMessage(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     soundFx.playClick();
     setIsSubmitting(true);
+    setErrorMessage(null);
 
-    setTimeout(() => {
+    const formPayload = new FormData();
+    formPayload.append("access_key", "59e39b8a-f7d9-4c5f-8bce-e65ac0a21b8d");
+    formPayload.append("name", formData.name);
+    formPayload.append("email", formData.email);
+    formPayload.append("phone", formData.phone || "Not provided");
+    formPayload.append("message", formData.message);
+    formPayload.append("subject", `New Portfolio Contact Message from ${formData.name}`);
+    formPayload.append("from_name", formData.name);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formPayload
+      });
+
+      const data = await response.json();
+
+      if (response.ok && (data.success || data.message === "Form submitted successfully")) {
+        setSubmitted(true);
+        soundFx.playSuccess();
+      } else {
+        setErrorMessage(data.message || "Failed to submit message. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage("Network error occurred. Please try again or email directly.");
+    } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
-      soundFx.playSuccess();
-    }, 600);
+    }
   };
 
   const copyEmail = () => {
@@ -84,8 +110,15 @@ export const Contact: React.FC = () => {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form id="form" onSubmit={handleSubmit} className="space-y-6">
               
+              {errorMessage && (
+                <div className="p-4 bg-red-50 border-2 border-red-600 text-red-700 text-xs font-semibold flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
               <div>
                 <input
                   type="text"
